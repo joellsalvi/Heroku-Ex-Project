@@ -20,12 +20,16 @@ import static javax.measure.unit.SI.KILOGRAM;
 import javax.measure.quantity.Mass;
 import org.jscience.physics.model.RelativisticModel;
 import org.jscience.physics.amount.Amount;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -99,7 +103,23 @@ public class Main {
     } else {
       HikariConfig config = new HikariConfig();
       config.setJdbcUrl(dbUrl);
-      System.out.println("HikariConfig = " + config);
+      ObjectMapper mapper = new ObjectMapper();
+      String configString = "";
+      try {
+        configString = mapper.writeValueAsString(config);
+      } catch (JsonProcessingException e) {
+        e.printStackTrace();
+      }
+      System.out.println("configString = " + configString);
+
+      System.out.println("DataSourceJNDI = " + config.getDataSourceJNDI());
+      System.out.println("JdbcUrl = " + config.getJdbcUrl());
+      System.out.println("DataSourceProperties = " + config.getDataSourceProperties().stringPropertyNames());
+      System.out.println("ConnectionInitSql = " + config.getConnectionInitSql());
+      System.out.println("Schema = " + config.getDataSource().getConnection().getSchema());
+      System.out.println("Catalog = " + config.getDataSource().getConnection().getCatalog());
+      System.out.println("ClientInfo = " + config.getDataSource().getConnection().getClientInfo().stringPropertyNames());
+      System.out.println("MetaData = " + config.getDataSource().getConnection().getMetaData());
       return new HikariDataSource(config);
     }
   }
