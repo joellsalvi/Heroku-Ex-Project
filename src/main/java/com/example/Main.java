@@ -23,6 +23,7 @@ import org.jscience.physics.amount.Amount;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class Main {
   private DataSource dataSource;
 
   @Autowired
-  private ObjectMapper mapper;
+  private Gson gson;
 
   public static void main(String[] args) throws Exception {
     SpringApplication.run(Main.class, args);
@@ -107,11 +108,10 @@ public class Main {
       HikariConfig config = new HikariConfig();
       config.setJdbcUrl(dbUrl);
 
-
       String configString = "";
       try {
-        configString = mapper.writeValueAsString(config);
-      } catch (JsonProcessingException e) {
+        configString = gson.toJson(config);
+      } catch (Exception e) {
           return new HikariDataSource(config);
       }
       System.out.println("configString = " + configString);
