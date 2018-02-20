@@ -52,6 +52,9 @@ public class Main {
   @Autowired
   private DataSource dataSource;
 
+  @Autowired
+  private ObjectMapper mapper;
+
   public static void main(String[] args) throws Exception {
     SpringApplication.run(Main.class, args);
   }
@@ -103,7 +106,8 @@ public class Main {
     } else {
       HikariConfig config = new HikariConfig();
       config.setJdbcUrl(dbUrl);
-      ObjectMapper mapper = new ObjectMapper();
+
+
       String configString = "";
       try {
         configString = mapper.writeValueAsString(config);
@@ -111,15 +115,15 @@ public class Main {
         e.printStackTrace();
       }
       System.out.println("configString = " + configString);
-
       System.out.println("DataSourceJNDI = " + config.getDataSourceJNDI());
-      System.out.println("JdbcUrl = " + config.getJdbcUrl());
       System.out.println("DataSourceProperties = " + config.getDataSourceProperties().stringPropertyNames());
       System.out.println("ConnectionInitSql = " + config.getConnectionInitSql());
       System.out.println("Schema = " + config.getDataSource().getConnection().getSchema());
       System.out.println("Catalog = " + config.getDataSource().getConnection().getCatalog());
       System.out.println("ClientInfo = " + config.getDataSource().getConnection().getClientInfo().stringPropertyNames());
       System.out.println("MetaData = " + config.getDataSource().getConnection().getMetaData());
+
+
       return new HikariDataSource(config);
     }
   }
