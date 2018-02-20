@@ -93,11 +93,13 @@ public class Main {
 
   @Bean
   public DataSource dataSource() throws SQLException {
+    System.out.println("dbUrl = " + dbUrl);
     if (dbUrl == null || dbUrl.isEmpty()) {
       return new HikariDataSource();
     } else {
       HikariConfig config = new HikariConfig();
       config.setJdbcUrl(dbUrl);
+      System.out.println("HikariConfig = " + config);
       return new HikariDataSource(config);
     }
   }
