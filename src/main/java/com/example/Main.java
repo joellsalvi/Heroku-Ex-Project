@@ -112,7 +112,7 @@ public class Main {
       try {
         configString = mapper.writeValueAsString(config);
       } catch (JsonProcessingException e) {
-        e.printStackTrace();
+          return new HikariDataSource(config);
       }
       System.out.println("configString = " + configString);
       System.out.println("DataSourceJNDI = " + config.getDataSourceJNDI());
