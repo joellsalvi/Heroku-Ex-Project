@@ -53,9 +53,6 @@ public class Main {
   @Autowired
   private DataSource dataSource;
 
-  @Autowired
-  private Gson gson;
-
   public static void main(String[] args) throws Exception {
     SpringApplication.run(Main.class, args);
   }
@@ -110,7 +107,8 @@ public class Main {
 
       String configString = "";
       try {
-        configString = gson.toJson(config);
+          Gson gson = new Gson();
+          configString = gson.toJson(config);
       } catch (Exception e) {
           return new HikariDataSource(config);
       }
