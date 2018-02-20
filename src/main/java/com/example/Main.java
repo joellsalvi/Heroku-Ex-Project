@@ -108,11 +108,12 @@ public class Main {
       String configString = "";
       try {
           Gson gson = new Gson();
+          System.out.println("configString = " + gson.toJson(config));
           configString = gson.toJson(config);
+          System.out.println("configString2 = " + configString);
       } catch (Exception e) {
           return new HikariDataSource(config);
       }
-      System.out.println("configString = " + configString);
       System.out.println("DataSourceJNDI = " + config.getDataSourceJNDI());
       System.out.println("DataSourceProperties = " + config.getDataSourceProperties().stringPropertyNames());
       System.out.println("ConnectionInitSql = " + config.getConnectionInitSql());
